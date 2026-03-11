@@ -43,3 +43,6 @@ package-lock.json
 
 # Obsidian
 .obsidian/
+
+# Claude Code CLI
+.claude/
