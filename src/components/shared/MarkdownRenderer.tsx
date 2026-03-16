@@ -236,7 +236,7 @@ async function loadRemarkPlugins(): Promise<RemarkPlugin[]> {
       warnedAboutGfmFallback = true;
       console.warn('[TOKENICODE] remark-gfm disabled: current JS runtime does not support its regex syntax');
     }
-    cachedRemarkPlugins = EMPTY_REMARK_PLUGINS;
+    cachedRemarkPlugins = [remarkMath];
     return cachedRemarkPlugins;
   }
 
@@ -248,7 +248,7 @@ async function loadRemarkPlugins(): Promise<RemarkPlugin[]> {
       })
       .catch((error) => {
         console.warn('[TOKENICODE] failed to load remark-gfm, falling back to basic markdown', error);
-        cachedRemarkPlugins = EMPTY_REMARK_PLUGINS;
+        cachedRemarkPlugins = [remarkMath];
         return cachedRemarkPlugins;
       });
   }
@@ -263,7 +263,7 @@ export const MarkdownRenderer = memo(function MarkdownRenderer({ content, classN
   const t = useT();
   const workingDirectory = useSettingsStore((s) => s.workingDirectory);
   const resolveBase = basePath || workingDirectory || '';
-  const [remarkPlugins, setRemarkPlugins] = useState<RemarkPlugin[]>(() => cachedRemarkPlugins ?? EMPTY_REMARK_PLUGINS);
+  const [remarkPlugins, setRemarkPlugins] = useState<RemarkPlugin[]>(() => cachedRemarkPlugins ?? [remarkMath]);
 
   useEffect(() => {
     if (cachedRemarkPlugins !== null) return;
